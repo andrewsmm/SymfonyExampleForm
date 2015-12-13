@@ -8,11 +8,11 @@
     {% if not posted %}
     <li>
         <div><label for="contacts_contacts_0_email" class="required">Email</label><input type="text" id="contacts_contacts_0_email" name="contacts[contacts][0][email]" required="required" /></div>
-        <div><label for="contacts_contacts_0_firstName" class="required">First name</label><input type="text" id="contacts_contacts_0_firstName" name="contacts[contacts][0][firstName]" required="required" /></div>
+        <div><label for="contacts_contacts_0_firstName" class="required">Имя</label><input type="text" id="contacts_contacts_0_firstName" name="contacts[contacts][0][firstName]" required="required" /></div>
     </li>
     <li>
         <div><label for="contacts_contacts_1_email" class="required">Email</label><input type="text" id="contacts_contacts_1_email" name="contacts[contacts][1][email]" required="required" /></div>
-        <div><label for="contacts_contacts_1_firstName" class="required">First name</label><input type="text" id="contacts_contacts_1_firstName" name="contacts[contacts][1][firstName]" required="required" /></div>
+        <div><label for="contacts_contacts_1_firstName" class="required">Имя</label><input type="text" id="contacts_contacts_1_firstName" name="contacts[contacts][1][firstName]" required="required" /></div>
     </li>
     {% endif %}
     {% for contact in form.contacts %}
