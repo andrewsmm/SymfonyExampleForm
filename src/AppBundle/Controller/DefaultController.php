@@ -48,14 +48,14 @@ class DefaultController extends Controller
                 }
                 return $this->render('default/success.html.twig');
             }
-            return $this->render('default/contacts-other-way.html.twig', array(
+            return $this->render('default/contacts-bootstrap.html.twig', array(
                 'form'=>$formContacts->createView(),
                 'contacts'=>$contacts,
                 'posted'=>true,
             ));
         }
 
-        return $this->render('default/contacts-other-way.html.twig', array(
+        return $this->render('default/contacts-bootstrap.html.twig', array(
             'form'=>$formContacts->createView(),
             'posted'=>false,
         ));
