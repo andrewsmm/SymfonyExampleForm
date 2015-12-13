@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% macro widget_prototype(widget, remove_text) %}
+        {% if widget.vars.prototype %}
+            {% set form = widget.vars.prototype %}
+            {% set name = widget.vars.name %}
+        {% else %}
+            {% set form = widget %}
+            {% set name = widget.full_name %}
+        {% endif %}
+
+        <div data-content="{{ name }}">
+            <a class="btn-remove" data-related="{{ name }}">{{ remove_text }}</a>
+            {{ form_widget(form) }}
+        </div>
+    {% endmacro %}
+<div>
+    <form action="{{ path('contacts') }}" method="POST">
+        {{ form_errors(form) }}
+        <fieldset>
+            <legend>Новые подписчики</legend>
+
+
+            <div id="post_tags" data-prototype="{{ _self.widget_prototype(form.contacts, 'Remove contact')|escape }}">
+                {% for widget in form.contacts.children %}
+                    {{ _self.widget_prototype(widget, 'Remove contact') }}
+                {% endfor %}
+            </div>
+
+            <a class="btn-add" data-target="post_tags">Add contact</a>
+        </fieldset>
+
+        {{ form_widget(form._token) }}
+
+        <input type="submit" value="Отправить" />
+    </form>
+</div>
+    <script>
+        $('.btn-add').click(function(event) {
+            var collectionHolder = $('#' + $(this).attr('data-target'));
+            var prototype = collectionHolder.attr('data-prototype');
+            var form = prototype.replace(/__name__/g, collectionHolder.children().length);
+
+            collectionHolder.append(form);
+
+            return false;
+        });
+        $('.btn-remove').live('click', function(event) {
+            var name = $(this).attr('data-related');
+            $('*[data-content="'+name+'"]').remove();
+
+            return false;
+        });
+    </script>
+{% endblock %}
+

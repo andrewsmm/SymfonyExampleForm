@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+{{ form_start(form) }}
+
+<h3>Contacts</h3>
+<ul class="contacts" data-prototype="{{form_widget(form.contacts.vars.prototype)|e }}">
+    {% if not posted %}
+    <li>
+        <div><label for="contacts_contacts_0_email" class="required">Email</label><input type="text" id="contacts_contacts_0_email" name="contacts[contacts][0][email]" required="required" /></div>
+        <div><label for="contacts_contacts_0_firstName" class="required">First name</label><input type="text" id="contacts_contacts_0_firstName" name="contacts[contacts][0][firstName]" required="required" /></div>
+    </li>
+    <li>
+        <div><label for="contacts_contacts_1_email" class="required">Email</label><input type="text" id="contacts_contacts_1_email" name="contacts[contacts][1][email]" required="required" /></div>
+        <div><label for="contacts_contacts_1_firstName" class="required">First name</label><input type="text" id="contacts_contacts_1_firstName" name="contacts[contacts][1][firstName]" required="required" /></div>
+    </li>
+    {% endif %}
+    {% for contact in form.contacts %}
+        <li>
+            {{ form_row(contact.email) }}
+            {{ form_row(contact.firstName) }}
+        </li>
+    {% endfor %}
+
+</ul>
+    {{ form_widget(form._token) }}
+
+    <input type="submit" value="Save" />
+{{ form_end(form) }}
+<script>
+    var $collectionHolder;
+
+    // setup an "add a tag" link
+    var $addContactLink = $('<a href="#" class="add_contact_link">add</a>');
+    var $newLinkLi = $('<li></li>').append($addContactLink);
+
+    jQuery(document).ready(function() {
+        // Get the ul that holds the collection of tags
+        $collectionHolder = $('ul.contacts');
+
+        // add the "add a tag" anchor and li to the tags ul
+        $collectionHolder.append($newLinkLi);
+
+        $collectionHolder.find('li').each(function() {
+            addContactFormDeleteLink($(this));
+        });
+        // count the current form inputs we have (e.g. 2), use that as the new
+        // index when inserting a new item (e.g. 2)
+        $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+        $addContactLink.on('click', function(e) {
+            // prevent the link from creating a "#" on the URL
+            e.preventDefault();
+
+            // add a new tag form (see next code block)
+            addContactForm($collectionHolder, $newLinkLi);
+        });
+
+        function addContactForm($collectionHolder, $newLinkLi) {
+            // Get the data-prototype explained earlier
+            var prototype = $collectionHolder.data('prototype');
+
+            // get the new index
+            var index = $collectionHolder.data('index');
+
+            // Replace '__name__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            var newForm = prototype.replace(/__name__/g, index);
+
+            // increase the index with one for the next item
+            $collectionHolder.data('index', index + 1);
+
+            var $newFormLi = $('<li></li>').append(newForm);
+            $newLinkLi.before($newFormLi);
+
+            addContactFormDeleteLink($newFormLi);
+        }
+
+        function addContactFormDeleteLink($contactFormLi) {
+            var $removeFormA = $('<a href="#">remove</a>');
+            $contactFormLi.append($removeFormA);
+
+            $removeFormA.on('click', function(e) {
+                // prevent the link from creating a "#" on the URL
+                e.preventDefault();
+
+                // remove the li for the tag form
+                $contactFormLi.remove();
+            });
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,34 @@
+AppBundle\Entity\Contact:
+    type: entity
+    table: contact
+    id:
+        contactId:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            column: contact_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        email:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        firstName:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: first_name
+        createdAt:
+            type: datetime
+            nullable: false
+            options:
+                default: CURRENT_TIMESTAMP
+            column: created_at
+    lifecycleCallbacks: {  }
