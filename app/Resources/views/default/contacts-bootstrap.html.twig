@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="control-group" id="fields">
+                <label class="control-label" for="field1">Кому подарочки</label>
+                <div class="controls">
+                    {{ form_start(form) }}
+
+                        <div class="contacts" data-prototype="{{form_widget(form.contacts.vars.prototype)|e }}">
+                            {% if not posted %}
+                                {% for i in 0..2 %}
+
+                                    <div class="entry  col-xs-12">
+                                        <div class="col-lg-3">
+                                            <input class="form-control name-input" type="text" id="contacts_contacts_{{ i }}_email" name="contacts[contacts][{{ i }}][email]" required="required" placeholder="Email" />
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <input class="form-control name-input" id="contacts_contacts_{{ i }}_firstName" name="contacts[contacts][{{ i }}][firstName]" required="required" placeholder="Имя"/>
+                                        </div>
+                                        {% if i==2 %}
+                                            <div class="col-lg-1">
+                                                <span>
+                                                    <button class="btn btn-success btn-add" type="button">
+                                                        <span class="glyphicon glyphicon-plus"></span>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                {% endfor %}
+                            {% endif %}
+
+                            {% for contact in form.contacts %}
+                                <div class="entry  col-xs-12">
+                                    <div class="col-lg-3">
+                                        {{ form_row(contact.email, { 'attr' : { 'class' : 'form-control name-input' }} ) }}
+                                    </div>
+                                    <div class="col-lg-3">
+                                        {{ form_row(contact.firstName, { 'attr' : { 'class' : 'form-control name-input' }} ) }}
+                                    </div>
+                                    {% if loop.last == true %}
+                                        <div class="col-lg-1">
+                                                    <span>
+                                                        <button class="btn btn-success btn-add" type="button">
+                                                            <span class="glyphicon glyphicon-plus"></span>
+                                                        </button>
+                                                    </span>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                        {{ form_widget(form._token) }}
+
+                        <div>
+                            <button type="submit" class="btn">Отправить</button>
+                        </div>
+                    {{ form_end(form) }}
+                    <br>
+                    <small>Нажмите <span class="glyphicon glyphicon-plus gs"></span> чтобы добавить контакт :)</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    <script src="/js/site.js"></script>
+{% endblock %}
